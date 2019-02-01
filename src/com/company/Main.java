@@ -32,7 +32,7 @@ public class Main {
         Scanner keyboard = new Scanner(System.in);
         boolean choice = true;
 
-        String betInput, color = "";
+        String betInput, color;
         int betAmountInput, betNumber, betColor;
         do {
             System.out.print("\nEnter the type of bet you would like to place (red|black|even|odd|high|low): ");
@@ -44,6 +44,7 @@ public class Main {
             betNumber = 1 + (int) (Math.random() * 36);
 
             //generate two colors
+            color = "";
             betColor = 1 + (int) (Math.random() * 2);
             switch (betColor) {
                 case 1:
@@ -52,70 +53,47 @@ public class Main {
                 case 2:
                     color = "black";
                     break;
-                default:
-                    System.out.println("Invalid Color");
-                    continue;            }
+            }
             System.out.println(" The ball landed on " + betNumber + " " + color + ".");
 
-            //check red or black
-            if (betInput.equals("red") || betInput.equals("black")) {
-                if (betInput.equals(color)) {
-                    win(betNumber);
-                } else {
-                    loose(betAmountInput);
-                }
+            switch (betInput) {
+                case "red": // Red: You are betting that the next roll will come up red.
+                case "black": //Black: You are betting that the next roll will come up black.
+                    if (betInput.equals(color)) {
+                        win(betNumber);
+                    } else {
+                        loose(betAmountInput);
+                    }
+                    break;
+                case "even"://Even: This is wagering that the ball will land on an even number between 1-36.
+                    if (betNumber % 2 == 0) {
+                        win(betNumber);
+                    } else {
+                        loose(betAmountInput);
+                    }
+                    break;
+                case "odd"://Odd: This is wagering that the ball will land on an odd number between 1-36.
+                    if (betNumber % 2 != 0) {
+                        win(betNumber);
+                    } else {
+                        loose(betAmountInput);
+                    }
+                    break;
+                case "low"://Low: This is a bet that the next number will be between 1 and 18.
+                    if (betNumber <= 18) {
+                        win(betNumber);
+                    } else {
+                        loose(betAmountInput);
+                    }
+                    break;
+                case "high"://High: This is a bet that the next number will be between 19 and 36.
+                    if (betNumber > 18) {
+                        win(betNumber);
+                    } else {
+                        loose(betAmountInput);
+                    }
+                    break;
             }
-            //check even or odd
-            else if (betInput.equals("even") || (betInput.equals("odd"))) {
-                if (betNumber % 2 == 0) {
-                    win(betNumber);
-                } else {
-                    loose(betAmountInput);
-                }
-            }
-            //check low or high
-            else if (betInput.equals("low") || betInput.equals("high")) {
-                if (betNumber <= 18) {
-                    win(betNumber);
-                } else {
-                    loose(betAmountInput);
-                }
-            }
-            else {
-                System.out.println("Invalid bet");
-                continue;
-            }
-//            switch (betInput) {
-//                case "red": // Red: You are betting that the next roll will come up red.//
-//                case "black": //Black: You are betting that the next roll will come up black.
-//                    if (betInput.equals(color)) {
-//                        win(betNumber);
-//                    } else {
-//                        loose(betAmountInput);
-//                    }
-//                    break;
-//                case "even"://Even: This is wagering that the ball will land on an even number between 1-36.//
-//                case "odd"://Odd: This is wagering that the ball will land on an odd number between 1-36.
-//                    if (betNumber % 2 == 0) {
-//                        win(betNumber);
-//                    } else {
-//                        loose(betAmountInput);
-//                    }
-//                    break;
-//                case "low"://Low: This is a bet that the next number will be between 1 and 18.//
-//                case "high"://High: This is a bet that the next number will be between 19 and 36.
-//                    if (betInput.equals("low") || betInput.equals("high")) {
-//                        if (betNumber <= 18) {
-//                            win(betNumber);
-//                        } else {
-//                            loose(betAmountInput);
-//                        }
-//                    }
-//                    break;
-//                default:
-//                    System.out.println("Invalid bet");
-//                    continue;
-//            }
 
             System.out.println("\nYou currently have: $" + totalAmount);
             System.out.print("\nWould you like to play again (true|false)? ");
